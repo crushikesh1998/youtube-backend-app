@@ -5,6 +5,7 @@ import fileUpload from 'express-fileupload';
 
 import { databaseConnection } from './config/db.config.js';
 import userRoute from './routes/user.routes.js';
+import videoRoute from './routes/video.routes.js';
 
 const app = express();
 dotenv.config();
@@ -24,7 +25,8 @@ app.use(fileUpload({
 
 //routers
 app.use("/api/v1/user",userRoute);
-
+app.use("api/v1/video",videoRoute)
+    
 app.listen(PORT,()=>{
     console.log(`server is running on http://localhost:${PORT}`);
 })

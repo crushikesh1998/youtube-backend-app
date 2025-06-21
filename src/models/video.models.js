@@ -23,11 +23,21 @@ const videoSchema = new mongoose.Schema({
         required:true,
         trim:true
     },
+    videoId:{
+        type:String,
+        required:true,
+        trim:true
+    },
     thumbnailUrl:{
         type:String,
         required:true,
         trim:true
     },
+    thumbnailId:{
+        type:String,
+        required:true,
+        
+    },  
     category:{
         type:String,
         required:true,
@@ -44,4 +54,22 @@ const videoSchema = new mongoose.Schema({
     viewedBy:[{type: mongoose.Schema.Types.ObjectId ,ref:"User"}],
 },{timestamps:true})
 
+
+//virtual field for likes,dislikes,view
+videoSchema.virtual("likes").get(function(){
+    return this.likedBy.length;
+});
+videoSchema.virtual("dislikes").get(function(){
+    return this.dislikedBy.length;
+});
+videoSchema.virtual("views").get(function(){
+    return this.viewedBy.length;
+});
+
+//ensure virtual field are include in JSON output
+videoSchema.set("toJSON",{
+    virtuals:true,
+})
 const Video = mongoose.model("Video",videoSchema)
+
+export default Video;
